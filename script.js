@@ -1,20 +1,19 @@
 'use strict';
 
-// Managing Workout Data: Creating Classes/
+
 class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
   clicks = 0;
 
   constructor(coords, distance, duration) {
-    // this.date = ...
-    // this.id = ...
+
     this.coords = coords; // [lat, lng]
     this.distance = distance; //in km
     this.duration = duration; // in min
   }
   _setDescription() {
-    // prettier-ignore
+
     const months = [
       'January',
       'February',
@@ -65,9 +64,7 @@ class Cycling extends Workout {
   }
 }
 
-// const run1 = new Running([39, -12], 5.2, 24, 178);
-// const cycl1 = new Cycling([39, -12], 27.2, 95, 523);
-// console.log(run1, cycl1);
+
 //////////////////////////
 //Application ARCHITECTURE
 const form = document.querySelector('.form');
@@ -106,7 +103,7 @@ class App {
   }
 
   _loadMap(position) {
-    const { latitude } = position.coords; //we could even use position.coords.latitude// coords is a child element of Currentposition
+    const { latitude } = position.coords; 
     const longtitude = position.coords.longitude;
     const coords = [latitude, longtitude];
     this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
@@ -164,9 +161,7 @@ class App {
       const cadence = +inputCadence.value;
       //Check if data is valid
       if (
-        // !Number.isFinite(distance) ||
-        // !Number.isFinite(duration) ||
-        // !Number.isFinite(cadence)
+
         !validInputs(distance, duration, cadence) ||
         !allPositive(distance, duration, cadence)
       )
@@ -174,7 +169,6 @@ class App {
       workout = new Running([lat, lng], distance, duration, cadence);
     }
 
-    //If workout cycling, create cycling object
     if (type === 'cycling') {
       const elevation = +inputElevation.value;
       if (
@@ -215,7 +209,7 @@ class App {
       .openPopup();
   }
 
-  //240. Rendering Workouts
+
   _renderWorkout(workout) {
     let html = `
       <li class="workout workout--${workout.type}" data-id="${workout.id}">
@@ -267,7 +261,6 @@ class App {
     form.insertAdjacentHTML('afterend', html);
   }
 
-  //241. Move to Marker On Click + adding into constructor
   _moveToPopUp(e) {
     const workoutEl = e.target.closest('.workout');
 
@@ -283,11 +276,10 @@ class App {
         duration: 1,
       },
     });
-    console.log(workout);
-    //using the public interface
-    // workout.click();
+
+
   }
-  //242. Working with localStorage== we should use it only for a small amount of data
+
   _setLocalStorage() {
     localStorage.setItem('workouts', JSON.stringify(this.#workouts));
   }
@@ -310,72 +302,3 @@ class App {
 }
 const app = new App();
 
-//232. Using the Geolocation API
-// if (navigator.geolocation)
-//   navigator.geolocation.getCurrentPosition(
-//     function (position) {
-//       const { latitude } = position.coords; //we could even use position.coords.latitude// coords is a child element of Currentposition
-//       const longtitude = position.coords.longitude;
-//       console.log(`https://www.google.sk/maps/@${latitude},${longtitude},14z`);
-//       const coords = [latitude, longtitude];
-//       map = L.map('map').setView(coords, 12);
-//       console.log(map);
-//       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//         attribution:
-//           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-//       }).addTo(map);
-
-//       //Handling clicks on map
-//       map.on('click', function (mapE) {
-//         mapEvent = mapE;
-//         form.classList.remove('hidden');
-//         inputDistance.focus();
-//       });
-//     },
-//     function () {
-//       alert('Could not get your position');
-//     }
-//   );
-//Rendering Workout Input Form
-// form.addEventListener('submit', function (e) {
-//   e.preventDefault();
-//   //Clear input fields
-//   inputCadence.value =
-//     inputDistance.value =
-//     inputDuration.value =
-//     inputElevation.value =
-//       '';
-
-//   //Displaying a Map Marker
-//   console.log(mapEvent);
-//   const { lat, lng } = mapEvent.latlng;
-//   L.marker({ lat, lng })
-//     .addTo(map)
-//     .bindPopup(
-//       L.popup({
-//         maxWidth: 250,
-//         minWidth: 100,
-//         autoClose: false,
-//         closeOnClick: false,
-//         className: 'running-popup',
-//       })
-//     )
-//     .setPopupContent('Workout')
-//     .openPopup();
-// });
-
-// inputType.addEventListener('change', function () {
-//   inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
-//   inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
-// });
-
-//233. Displaying a Map Using Leaflet Library
-// we add a hosted version
-
-//234. Displaying a Map Marker
-
-//235. Rendering Workout Input Form
-
-//237. Refactoring for Project Architecture
-
-//238. Managing Workout Data: Creating Classes
